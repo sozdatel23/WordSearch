@@ -23,18 +23,13 @@ namespace WordSearch
             InitializeComponent();
         }
 
+        // Словарь русских слов
         string path = @"C:\Users\sozda\source\repos\WordSearch\russianWords.txt";
-        //string path = @"C:\Users\sozda\source\repos\WordSearch\test.txt";
-        string path2 = @"C:\Users\sozda\source\repos\WordSearch\test2.txt";
+        // Промежуточный файл с подходящими словами
+        string path2 = @"C:\Users\sozda\source\repos\WordSearch\test2.txt"; 
         int numLetters = 0;
 
-         /* * *
-         * Открываем файл, читаем строки в цикле.
-         * В цикле происходят проверки на количество букв, и наличие каких либо других.
-         * Записываем подходящую строку в новый файл, и так все строки в цикле
-         * Выводим новый файл в TextBox.
-         * * */
-
+        // Вывод слов
         public async void ShowWordsAsync()
         {
             int countSuitableWord = 0;
@@ -50,7 +45,7 @@ namespace WordSearch
                         byte[] buffer = Encoding.UTF8.GetBytes(word + "\n");
                         await test2.WriteAsync(buffer, 0, buffer.Length);
                         /*
-                            Тут делаем фильтр слова
+                            Фильтр слов
                         */
                         countSuitableWord++;
                     }
@@ -66,9 +61,19 @@ namespace WordSearch
             countWord.Text = $"Количество подходящих слов: {countSuitableWord}";
         }
 
-        public void FilterBox() //создать боксы для 
+        //ячейки для букв
+        public void FilterBox()
         {
-
+            for (int i = 0; i < numLetters; i++)
+            {
+                TextBox letters = new TextBox();
+                letters.Name = "lettersBox" + i;
+                letters.Text = " ";
+                letters.Width = 20;
+                letters.Height = 20;
+                lettersPanel.Children.Add(letters);
+                lettersPanel.RegisterName(letters.Name, letters);
+            }
         }
 
         /* * * Buttons * * */
@@ -87,19 +92,7 @@ namespace WordSearch
         {
             numLetters = Convert.ToInt32(numberLetters.Text);
             FilterBox();
-
             textInStackPanel.Visibility = Visibility;
-
-            for(int i=0; i<numLetters; i++)
-            {
-                TextBox letters = new TextBox();
-                letters.Name = "lettersBox" + i;
-                letters.Text = " ";
-                letters.Width = 20;
-                letters.Height = 20;
-                lettersPanel.Children.Add(letters);
-                lettersPanel.RegisterName(letters.Name, letters);
-            }
         }
     }
 }
